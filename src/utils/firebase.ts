@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { addDoc, collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
 import { Song } from '../types/Song';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyCLg7sLMT6IHqvK0uek1RWGLU59qxU8B8o',
@@ -15,34 +14,27 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-const addSongs = async (song: Omit<Song, 'id'>) => {
+const songDocuments = collection(db, 'songs');
+
+export const addSongs = async (song: Song) => {
 	try {
-		const where = collection(db, 'songs');
-		await addDoc(where, song);
+		await addDoc(songDocuments, song);
 		console.log('Se añadió');
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-const getSongs = async () => {
-	const querySnapshot = await getDocs(collection(db, 'songs'));
-	const transformed: Array<Song> = [];
+export const getSongs = async () => {
+	const querySnapshot = await getDocs(songDocuments);
+	const songs: Song[] = [];
 
-	querySnapshot.forEach((doc) => {
+	querySnapshot.docs.forEach((doc) => {
 		const data: Omit<Song, 'id'> = doc.data() as any;
-		transformed.push({
-			id: doc.id,
-			...data,
-		});
+		const songData = doc.data() as Song;
+		songs.push(songData);
 	});
 
-	return transformed;
-};
-
-export default {
-	addSongs,
-	getSongs,
+	return songs;
 };

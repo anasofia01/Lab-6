@@ -1,0 +1,39 @@
+.container-song {
+	display: grid;
+	grid-template-columns: auto 1fr 1fr 1fr;
+	grid-gap: 10px;
+	align-items: center;
+	padding: 20px;
+}
+
+.column1 {
+	display: flex;
+	align-items: center;
+}
+
+.image-song {
+	width: 70px;
+	height: 70px;
+	margin-right: 10px;
+}
+
+.song-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.name-song,
+.author-song {
+	margin-top: 10px;
+}
+
+.column2,
+.column3,
+.column4 {
+	text-align: center;
+}
+
+span {
+	color: #fff;
+	font-family: 'Roboto', sans-serif;
+}

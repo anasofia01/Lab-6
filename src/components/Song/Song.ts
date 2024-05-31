@@ -1,7 +1,9 @@
+import styles from './Song.css';
+
 export enum Attribute {
 	'image' = 'image',
-	'Title' = 'Title',
-	'autor' = 'autor',
+	'name' = 'name',
+	'author' = 'author',
 	'album' = 'album',
 	'dateAdded' = 'dateAdded',
 	'duration' = 'duration',
@@ -9,8 +11,8 @@ export enum Attribute {
 
 class SongCard extends HTMLElement {
 	image?: string;
-	Title?: string;
-	autor?: string;
+	name?: string;
+	author?: string;
 	album?: string;
 	dateAdded?: string;
 	duration?: number;
@@ -18,8 +20,8 @@ class SongCard extends HTMLElement {
 	static get observedAttributes() {
 		const classAttribute: Record<Attribute, null> = {
 			image: null,
-			Title: null,
-			autor: null,
+			name: null,
+			author: null,
 			album: null,
 			dateAdded: null,
 			duration: null,
@@ -58,16 +60,25 @@ class SongCard extends HTMLElement {
 	render() {
 		if (this.shadowRoot) {
 			this.shadowRoot.innerHTML = `
-      <figure>
-        <h2>${this.Title}</h2>
-        <div class = "frame">
-          <img src = "${this.image}"/>
+      <style>${styles}</style>
+      <div class = "container-song">
+        <div class = "column1">
+          <img class = "image-song" src = "${this.image}"/>
+          <div class = "song-info">
+            <span class = "name-song"><b>${this.name}</b></span>
+            <span class = "author-song">${this.author}</span>
+          </div>
         </div>
-        <span>${this.autor}</span>
-        <span>${this.album}</span>
-        <span>${this.dateAdded}</span>
-        <span>${this.duration}</span>
-      </figure>
+        <div class = "column2">
+          <span class = "name-album-song">${this.album}</span>
+        </div>
+        <div class = "column3">
+          <span class = "date-song">${this.dateAdded}</span>
+        </div>
+        <div class = "column4">
+          <span class = "duration-song">${this.duration}</span>
+        </div>
+      </div>
       `;
 		}
 	}
